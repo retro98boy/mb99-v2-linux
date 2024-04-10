@@ -1,8 +1,8 @@
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 9d28a485..2cedca76 100644
+index b102ffb5..43ef622c 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -168,6 +168,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3399) += \
+@@ -170,6 +170,7 @@ dtb-$(CONFIG_ROCKCHIP_RK3399) += \
  	rk3399-rock-pi-4c.dtb \
  	rk3399-rock960.dtb \
  	rk3399-rockpro64.dtb \
@@ -35,10 +35,10 @@ index 00000000..c58ad95d
 +};
 diff --git a/arch/arm/dts/rk3399-mb99-v2.dts b/arch/arm/dts/rk3399-mb99-v2.dts
 new file mode 100644
-index 00000000..07b7d30a
+index 00000000..8d9723a3
 --- /dev/null
 +++ b/arch/arm/dts/rk3399-mb99-v2.dts
-@@ -0,0 +1,642 @@
+@@ -0,0 +1,641 @@
 +/dts-v1/;
 +
 +#include <dt-bindings/input/linux-event-codes.h>
@@ -399,7 +399,7 @@ index 00000000..07b7d30a
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-state-mem {
-+					regulator-on-in-suspend;
++					regulator-off-in-suspend;
 +				};
 +			};
 +
@@ -461,7 +461,6 @@ index 00000000..07b7d30a
 +		reg = <0x1a>;
 +		clocks = <&cru SCLK_I2S_8CH_OUT>;
 +		clock-names = "mclk";
-+		realtek,in1-differential;
 +		#sound-dai-cells = <0>;
 +	};
 +};
@@ -683,10 +682,11 @@ index 00000000..07b7d30a
 +
 diff --git a/configs/mb99-v2-rk3399_defconfig b/configs/mb99-v2-rk3399_defconfig
 new file mode 100644
-index 00000000..1a3a1fa2
+index 00000000..16af4595
 --- /dev/null
 +++ b/configs/mb99-v2-rk3399_defconfig
-@@ -0,0 +1,84 @@
+@@ -0,0 +1,85 @@
++# Reference from firefly-rk3399_defconfig
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
 +CONFIG_COUNTER_FREQUENCY=24000000
