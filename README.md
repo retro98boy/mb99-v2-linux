@@ -24,7 +24,7 @@ ROM为32GiB的eMMC
 
 - 2为USB Type-A x2，规格均为USB 3.2 Gen1。RK3399处于Maskrom模式时，可通过上方的Type-A刷机，需要Type-A to Type-A双公头线
 
-- 3为3.5mm模拟音频接口
+- 3为OMTP标准的3.5mm耳麦接口，CTIA标准的耳机插入时，只有按住耳机麦克风按钮才能正常听音乐，或者可以购买OMTP/CTIA互转线
 
 - 4为RJ45接口，但不是以太网功能，具体什么功能未知
 
@@ -38,7 +38,11 @@ ROM为32GiB的eMMC
 
 ![sata-power-pin](pictures/sata-power-pin.png)
 
+可购买XH 2.54mm 4pin转SATA供电线，在使用前一定要确定线序，例如12V和5V有没有反，如果是反的，需要改线序
+
 - 8为SATA数据接口，板子的SATA是通过ASM1061 PCIe to SATA芯片桥接出来的而不是USB
+
+使用东芝TR200固态实测写入能达到200MBps
 
 - 9为TF卡槽
 
@@ -77,4 +81,34 @@ RJ45公头和母头的pin分别标号：
 
 # 主线U-Boot
 
-参考[此处](https://github.com/retro98boy/linux-tn3399-v3/tree/master#%E7%BC%96%E8%AF%91%E4%B8%BB%E7%BA%BFu-boot)编译和使用
+参考[此处](https://github.com/retro98boy/tn3399-v3-linux#%E7%BC%96%E8%AF%91%E4%B8%BB%E7%BA%BFu-boot)编译和使用
+
+# ALC5651
+
+如果将仓库中的dts/dtb搭配Armbian的镜像来使用，ALC5651可以正常播放声音
+
+如果使用仓库中的dts/dtb搭配自编译内核，ALC5651可能会不工作。这是因为ALC5651驱动存在clock上的Bug，打上两个来自Armbian的补丁再编译内核就行：
+
+[general-rt5651-add-mclk.patch](https://github.com/armbian/build/blob/main/patch/kernel/archive/rockchip64-6.6/general-rt5651-add-mclk.patch)
+
+[rk3399-add-sclk-i2sout-src-clock.patch](https://github.com/armbian/build/blob/main/patch/kernel/archive/rockchip64-6.6/rk3399-add-sclk-i2sout-src-clock.patch)
+
+实测不打下面那个补丁ALC5651也能正常播放声音，但为了保险还是把下面的补丁一起打上
+
+Armbian的镜像中自带[asound.state](https://github.com/armbian/build/blob/aee4c495a1c989723f7874b636088ba46f9fedf2/packages/blobs/asound.state/asound.state.rt5651#L4)，设置好了ALC5651的声音通路。如果是其他的发行版/rootfs的话，需要自行设置声音通路：
+
+```
+# 参考https://www.cnblogs.com/zyly/p/17591417.html
+amixer -D hw:rockchiprt5651c cset name='DAC MIXL INF1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='DAC MIXR INF1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='Stereo DAC MIXL DAC L1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='Stereo DAC MIXR DAC R1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='OUT MIXR DAC R1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='OUT MIXL DAC L1 Switch' on
+amixer -D hw:rockchiprt5651c cset name='HPOVOL L Switch' on
+amixer -D hw:rockchiprt5651c cset name='HPOVOL R Switch' on
+amixer -D hw:rockchiprt5651c cset name='HPO MIX HPVOL Switch' on
+amixer -D hw:rockchiprt5651c cset name='HPO L Playback Switch' on
+amixer -D hw:rockchiprt5651c cset name='HPO R Playback Switch' on
+alsactl store
+```
