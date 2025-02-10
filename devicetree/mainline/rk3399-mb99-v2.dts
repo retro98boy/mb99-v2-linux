@@ -465,7 +465,7 @@
 &pcie0 {
 	ep-gpios = <&gpio4 RK_PD3 GPIO_ACTIVE_HIGH>;
 	num-lanes = <4>;
-	pinctrl-0 = <&pcie_clkreqnb_cpm>;
+	pinctrl-0 = <&pcie_clkreqn>;
 	pinctrl-names = "default";
 	status = "okay";
 };
@@ -484,6 +484,12 @@
 	rt5651 {
 		hp_det: hp-det {
 			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	pcie {
+		pcie_clkreqn: pci-clkreqn {
+			rockchip,pins = <2 RK_PD2 2 &pcfg_pull_none>;
 		};
 	};
 
