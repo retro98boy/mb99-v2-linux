@@ -3,13 +3,13 @@
 #include <dt-bindings/input/linux-event-codes.h>
 #include <dt-bindings/pwm/pwm.h>
 #include "rk3399.dtsi"
-#include "rk3399-op1-opp.dtsi"
 
 / {
 	model = "HRK MB99-V2";
 	compatible = "hrk,mb99-v2", "rockchip,rk3399";
 
 	aliases {
+		ethernet0 = &gmac;
 		mmc0 = &sdhci;
 		mmc1 = &sdmmc;
 	};
@@ -51,7 +51,7 @@
 		};
 	};
 
-	vcc5v0_sys: vcc5v0-sys {
+	vcc5v0_sys: regulator-vcc5v0-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc5v0_sys";
 		regulator-always-on;
@@ -60,7 +60,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc5v0_otg: vcc5v0-otg {
+	vcc5v0_otg: regulator-vcc5v0-otg {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
@@ -73,7 +73,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc5v0_host: vcc5v0-host {
+	vcc5v0_host: regulator-vcc5v0-host {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
@@ -86,7 +86,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	vcc3v3_sys: vcc3v3-sys {
+	vcc3v3_sys: regulator-vcc3v3-sys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v3_sys";
 		regulator-always-on;
@@ -95,7 +95,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vcc_sd: vcc-sd {
+	vcc_sd: regulator-vcc-sd {
 		compatible = "regulator-fixed";
 		enable-active-high;
 		gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>;
@@ -108,7 +108,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vccadc_ref: vccadc-ref {
+	vccadc_ref: regulator-vccadc-ref {
 		compatible = "regulator-fixed";
 		regulator-name = "vccadc_ref";
 		regulator-always-on;
@@ -117,7 +117,7 @@
 		regulator-max-microvolt = <1800000>;
 	};
 
-	vcc_lan: vcc-lan {
+	vcc_lan: regulator-vcc-lan {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc_lan";
 		regulator-always-on;
@@ -126,7 +126,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	vdd_log: vdd-log {
+	vdd_log: regulator-vdd-log {
 		compatible = "pwm-regulator";
 		pwms = <&pwm2 0 25000 1>;
 		pwm-supply = <&vcc3v3_sys>;
@@ -213,7 +213,7 @@
 		clock-output-names = "xin32k", "rk808-clkout2";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pmic_int_l>;
-		rockchip,system-power-controller;
+		system-power-controller;
 		wakeup-source;
 
 		vcc1-supply = <&vcc3v3_sys>;
