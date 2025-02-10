@@ -95,7 +95,7 @@ RJ45公头和母头的pin分别标号：
 
 实测不打下面那个补丁ALC5651也能正常播放声音，但为了保险还是把下面的补丁一起打上
 
-Armbian的镜像中自带[asound.state](https://github.com/armbian/build/blob/aee4c495a1c989723f7874b636088ba46f9fedf2/packages/blobs/asound.state/asound.state.rt5651#L4)，设置好了ALC5651的声音通路。如果是其他的发行版/rootfs的话，需要自行设置声音通路：
+系统开机后需要设置一次声音通路：
 
 ```
 # 参考https://www.cnblogs.com/zyly/p/17591417.html
