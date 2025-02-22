@@ -442,12 +442,10 @@
 };
 
 &i2s0 {
-	#sound-dai-cells = <0>;
 	status = "okay";
 };
 
 &i2s2 {
-	#sound-dai-cells = <0>;
 	status = "okay";
 };
 
