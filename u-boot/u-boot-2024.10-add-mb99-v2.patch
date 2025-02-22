@@ -94,10 +94,10 @@ index 00000000..67c14060
 +CONFIG_ERRNO_STR=y
 diff --git a/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts b/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts
 new file mode 100644
-index 00000000..c2bc2f9b
+index 00000000..188ad372
 --- /dev/null
 +++ b/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts
-@@ -0,0 +1,664 @@
+@@ -0,0 +1,663 @@
 +/dts-v1/;
 +
 +#include <dt-bindings/input/linux-event-codes.h>
@@ -645,8 +645,7 @@ index 00000000..c2bc2f9b
 +&sdhci {
 +	max-frequency = <150000000>;
 +	bus-width = <8>;
-+	mmc-hs400-1_8v;
-+	mmc-hs400-enhanced-strobe;
++	mmc-hs200-1_8v;
 +	non-removable;
 +	status = "okay";
 +};
