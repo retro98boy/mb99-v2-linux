@@ -112,3 +112,12 @@ amixer -D hw:rockchiprt5651c cset name='HPO L Playback Switch' on
 amixer -D hw:rockchiprt5651c cset name='HPO R Playback Switch' on
 alsactl store
 ```
+
+# 继电器
+
+控制继电器：
+
+```
+gpioset gpiochip4 4=1
+gpioset gpiochip4 4=0
+```
