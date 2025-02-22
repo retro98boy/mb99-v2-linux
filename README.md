@@ -4,11 +4,11 @@
 
 SoC为RK3399
 
-RAM为2GiB的DDR3，频率是1600MHz，这点可以从原版系统启动日志中看出：
+RAM为2GB的DDR3，频率是1600MHz，这点可以从原版系统启动日志中看出：
 
 ![boot-log-ddr](pictures/boot-log-ddr.png)
 
-ROM为32GiB的eMMC
+ROM为32GB的eMMC
 
 ## 外部IO
 
