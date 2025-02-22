@@ -94,10 +94,10 @@ index 00000000..67c14060
 +CONFIG_ERRNO_STR=y
 diff --git a/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts b/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts
 new file mode 100644
-index 00000000..47085876
+index 00000000..c2bc2f9b
 --- /dev/null
 +++ b/dts/upstream/src/arm64/rockchip/rk3399-mb99-v2.dts
-@@ -0,0 +1,666 @@
+@@ -0,0 +1,664 @@
 +/dts-v1/;
 +
 +#include <dt-bindings/input/linux-event-codes.h>
@@ -152,7 +152,7 @@ index 00000000..47085876
 +		};
 +	};
 +
-+	vcc5v0_sys: vcc5v0-sys {
++	vcc5v0_sys: regulator-vcc5v0-sys {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vcc5v0_sys";
 +		regulator-always-on;
@@ -161,7 +161,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <5000000>;
 +	};
 +
-+	vcc5v0_otg: vcc5v0-otg {
++	vcc5v0_otg: regulator-vcc5v0-otg {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpio = <&gpio1 RK_PA3 GPIO_ACTIVE_HIGH>;
@@ -174,7 +174,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <5000000>;
 +	};
 +
-+	vcc5v0_host: vcc5v0-host {
++	vcc5v0_host: regulator-vcc5v0-host {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpio = <&gpio4 RK_PD1 GPIO_ACTIVE_HIGH>;
@@ -187,7 +187,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <5000000>;
 +	};
 +
-+	vcc3v3_sys: vcc3v3-sys {
++	vcc3v3_sys: regulator-vcc3v3-sys {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vcc3v3_sys";
 +		regulator-always-on;
@@ -196,7 +196,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <3300000>;
 +	};
 +
-+	vcc_sd: vcc-sd {
++	vcc_sd: regulator-vcc-sd {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
 +		gpio = <&gpio0 RK_PA1 GPIO_ACTIVE_HIGH>;
@@ -209,7 +209,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <3300000>;
 +	};
 +
-+	vccadc_ref: vccadc-ref {
++	vccadc_ref: regulator-vccadc-ref {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vccadc_ref";
 +		regulator-always-on;
@@ -218,7 +218,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <1800000>;
 +	};
 +
-+	vcc_lan: vcc-lan {
++	vcc_lan: regulator-vcc-lan {
 +		compatible = "regulator-fixed";
 +		regulator-name = "vcc_lan";
 +		regulator-always-on;
@@ -227,7 +227,7 @@ index 00000000..47085876
 +		regulator-max-microvolt = <3300000>;
 +	};
 +
-+	vdd_log: vdd-log {
++	vdd_log: regulator-vdd-log {
 +		compatible = "pwm-regulator";
 +		pwms = <&pwm2 0 25000 1>;
 +		pwm-supply = <&vcc3v3_sys>;
@@ -415,8 +415,7 @@ index 00000000..47085876
 +				regulator-min-microvolt = <1800000>;
 +				regulator-max-microvolt = <3000000>;
 +				regulator-state-mem {
-+					regulator-on-in-suspend;
-+					regulator-suspend-microvolt = <3000000>;
++					regulator-off-in-suspend;
 +				};
 +			};
 +
@@ -438,8 +437,7 @@ index 00000000..47085876
 +				regulator-min-microvolt = <1500000>;
 +				regulator-max-microvolt = <1500000>;
 +				regulator-state-mem {
-+					regulator-on-in-suspend;
-+					regulator-suspend-microvolt = <1500000>;
++					regulator-off-in-suspend;
 +				};
 +			};
 +
@@ -461,8 +459,7 @@ index 00000000..47085876
 +				regulator-min-microvolt = <3000000>;
 +				regulator-max-microvolt = <3000000>;
 +				regulator-state-mem {
-+					regulator-on-in-suspend;
-+					regulator-suspend-microvolt = <3000000>;
++					regulator-off-in-suspend;
 +				};
 +			};
 +
@@ -471,7 +468,7 @@ index 00000000..47085876
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-state-mem {
-+					regulator-off-in-suspend;
++					regulator-on-in-suspend;
 +				};
 +			};
 +
@@ -546,12 +543,10 @@ index 00000000..47085876
 +};
 +
 +&i2s0 {
-+	#sound-dai-cells = <0>;
 +	status = "okay";
 +};
 +
 +&i2s2 {
-+	#sound-dai-cells = <0>;
 +	status = "okay";
 +};
 +
@@ -618,6 +613,7 @@ index 00000000..47085876
 +		vcc5v0_otg_en: vcc5v0-otg-en {
 +			rockchip,pins = <1 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
++
 +		vcc5v0_host_en: vcc5v0-host-en {
 +			rockchip,pins = <4 RK_PD1 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
@@ -649,7 +645,8 @@ index 00000000..47085876
 +&sdhci {
 +	max-frequency = <150000000>;
 +	bus-width = <8>;
-+	mmc-hs200-1_8v;
++	mmc-hs400-1_8v;
++	mmc-hs400-enhanced-strobe;
 +	non-removable;
 +	status = "okay";
 +};
@@ -665,6 +662,7 @@ index 00000000..47085876
 +	pinctrl-0 = <&sdmmc_clk &sdmmc_cd &sdmmc_cmd &sdmmc_bus4>;
 +	vmmc-supply = <&vcc_sd>;
 +	vqmmc-supply = <&vccio_sd>;
++	sd-uhs-sdr104;
 +	status = "okay";
 +};
 +
